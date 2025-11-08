@@ -1,0 +1,50 @@
+Practical No:
+
+Write a database trigger on Library table. The System should keep track of the records that are being updated or deleted. The old value of updated or deleted records should be added in Library_Audit table.
+
+CREATE TABLE lib1 (
+    rollno INT PRIMARY KEY,
+    name VARCHAR2(50),
+    bookname VARCHAR2(100)
+);
+
+INSERT INTO lib1 VALUES (1, 'Ravi', 'DBMS');
+INSERT INTO lib1 VALUES (2, 'Sneha', 'Networking');
+INSERT INTO lib1 VALUES (3, 'Amit', 'Operating Systems');
+
+
+CREATE TABLE lib_audit (
+    rollno INT,
+    name VARCHAR2(50),
+    bookname VARCHAR2(100),
+    action_type VARCHAR2(10),
+    action_date DATE
+);
+
+CREATE OR REPLACE TRIGGER libtrig
+AFTER DELETE OR UPDATE ON lib1
+REFERENCING OLD AS o NEW AS n
+FOR EACH ROW
+BEGIN
+    INSERT INTO lib_audit
+    VALUES(:o.rollno, :o.name, :o.bookname,
+           CASE
+               WHEN DELETING THEN 'DELETE'
+               WHEN UPDATING THEN 'UPDATE'
+           END,
+           SYSDATE);
+END;
+/
+
+show errors trigger libtrig;
+
+UPDATE lib1
+SET bookname = 'Computer Networks'
+WHERE rollno = 2;
+
+
+DELETE FROM lib1 WHERE rollno = 3;
+
+
+SELECT * FROM lib_audit;
+
