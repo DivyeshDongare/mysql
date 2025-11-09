@@ -1,54 +1,21 @@
-> use demo
-switched to db demo
-db.orders.insert({cust_id:"A123",amount: 500, status:'A'})
-WriteResult({ "nInserted" : 1 })
-
-db.orders.insert({cust_id:"A123",amount: 250, status:'A'})
-WriteResult({ "nInserted" : 1 })
-
-db.orders.insert({cust_id:"A121",amount: 200, status:'A'})
-WriteResult({ "nInserted" : 1 })
-
-db.orders.insert({cust_id:"B234",amount: 200, status:'A'})
-WriteResult({ "nInserted" : 1 })
-
-db.orders.insert({cust_id:"B234",amount: 234, status:'B'})
-WriteResult({ "nInserted" : 1 })
-
-db.orders.insert({cust_id:"A121",amount: 400, status:'D'})
-WriteResult({ "nInserted" : 1 })
-
-db.orders.insert({cust_id:"A234",amount: 400, status:'A'})
-WriteResult({ "nInserted" : 1 })
-
- db.orders.insert({cust_id:"A234",amount: 400, status:''})
-WriteResult({ "nInserted" : 1 })
-
-db.orders.insert({cust_id:"A234",amount: 400, status:'B'})
-WriteResult({ "nInserted" : 1 })
-
-
-var mapFunction1 = function() { emit(this.cust_id, this.amount); };
-
-
-var reduceFunction1 = function(keyCustId, valuesamount) { return Array.avg(valuesamount); };
-
-
-db.orders.mapReduce(
-mapFunction1,
-reduceFunction1,
-{ out: "map_reduce_example" })
-
-
-db.map_reduce_example.find()
-
-
-{ "_id" : "A121", "value" : 600 }
-{ "_id" : "A123", "value" : 750 }
-{ "_id" : "A234", "value" : 1200 }
-{ "_id" : "B234", "value" : 434 }
-
-
-> db.orders.distinct("cust_id")
-[ "A123", "A121", "B234", "A234" ]
-
+use fruit
+switched to db fruit
+fruit> db.mango.insertMany([{Student_id:101,Department:"CSE",Marks:90},{Student_id:102,Department:"CSE",Marks:85},{Student_id:203,Department:"IT",Marks:80},{Student_id:204,Department:"IT",Marks:82},{Student_id:305,Department:"MECHANICAL",Marks:87},{Student_id:306,Department:"MECHANICAL",Marks:77}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('690f4cc75d070ff9ef63b112'),
+    '1': ObjectId('690f4cc75d070ff9ef63b113'),
+    '2': ObjectId('690f4cc75d070ff9ef63b114'),
+    '3': ObjectId('690f4cc75d070ff9ef63b115'),
+    '4': ObjectId('690f4cc75d070ff9ef63b116'),
+    '5': ObjectId('690f4cc75d070ff9ef63b117')
+  }
+}
+var mapFunction=function(){
+... emit(this.Department,this.Marks);};
+ var reduceFunction=function(key,values){ return Array .avg(values);};
+db.mango.mapReduce(
+... mapFunction,
+... reduceFunction,
+... {out:"map_reduce"});
