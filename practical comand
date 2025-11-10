@@ -1,0 +1,11 @@
+Windows Powershell Command:
+Invoke-WebRequest -Uri "https://github.com/ryn-001/5th-Semester-Practicals/archive/refs/heads/main.zip" -OutFile "repo.zip"
+Expand-Archive -Path "repo.zip" -DestinationPath "." 
+
+Windows Command Prompt Command:
+powershell -Command "Invoke-WebRequest -Uri 'https://github.com/ryn-001/5th-Semester-Practicals/archive/refs/heads/main.zip' -OutFile 'repo.zip'; Expand-Archive -Path 'repo.zip' -DestinationPath '.'"
+
+Linux Command:
+wget https://github.com/ryn-001/5th-Semester-Practicals/archive/refs/heads/main.zip -O repo.zip
+unzip repo.zip -d .
+
