@@ -13,6 +13,13 @@ CREATE TABLE Student (
     Year INT,
     Email VARCHAR(50)
 );
+
+INSERT INTO Student VALUES
+(1, 'Amit Sharma', 'Computer', 3, 'amit@gmail.com'),
+(2, 'Sneha Patil', 'IT', 2, 'sneha@gmail.com'),
+(3, 'Rahul Deshmukh', 'ENTC', 3, 'rahul@gmail.com'),
+(4, 'Priya Joshi', 'Computer', 1, 'priya@gmail.com'),
+(5, 'Rohan Kulkarni', 'Mechanical', 4, 'rohan@gmail.com');
 ________________________________________
 (b) Marks Table
 CREATE TABLE Marks (
@@ -22,6 +29,20 @@ CREATE TABLE Marks (
     MarksObtained INT CHECK (MarksObtained BETWEEN 0 AND 100),
     FOREIGN KEY (StudentID) REFERENCES Student(StudentID)
 );
+
+INSERT INTO Marks VALUES
+(1, 1, 'DBMS', 85),
+(2, 1, 'DSA', 78),
+(3, 1, 'OS', 82),
+(4, 2, 'DBMS', 67),
+(5, 2, 'DSA', 72),
+(6, 3, 'DBMS', 90),
+(7, 3, 'DSA', 88),
+(8, 3, 'OS', 92),
+(9, 4, 'DBMS', 55),
+(10, 4, 'DSA', 61),
+(11, 5, 'DBMS', 70),
+(12, 5, 'DSA', 65);
 ________________________________________
 (c) Result Table
 CREATE TABLE Result (
@@ -33,20 +54,7 @@ CREATE TABLE Result (
     FOREIGN KEY (StudentID) REFERENCES Student(StudentID)
 );
 ________________________________________
-3. Insert Sample Data
-INSERT INTO Student VALUES
-(1, 'Amit Sharma', 'Computer', 3, 'amit@gmail.com'),
-(2, 'Sneha Patil', 'IT', 2, 'sneha@gmail.com'),
-(3, 'Rahul Deshmukh', 'ENTC', 3, 'rahul@gmail.com');
 
-INSERT INTO Marks VALUES
-(1, 1, 'DBMS', 85),
-(2, 1, 'DSA', 78),
-(3, 2, 'DBMS', 67),
-(4, 2, 'DSA', 72),
-(5, 3, 'DBMS', 90),
-(6, 3, 'DSA', 88);
-________________________________________
 4. SQL DML Queries
 Query 1 — Display all student details
 SELECT * FROM Student;
@@ -95,7 +103,7 @@ Query 10 — Insert computed result into Result table
 INSERT INTO Result (ResultID, StudentID, TotalMarks, Percentage, Grade)
 SELECT ROW_NUMBER() OVER () AS ResultID,
        StudentID,
-       SUM(MarksObtained) AS TotalMarks,3
+       SUM(MarksObtained) AS TotalMarks,
        AVG(MarksObtained) AS Percentage,
        CASE
             WHEN AVG(MarksObtained) >= 75 THEN 'A'
@@ -103,8 +111,7 @@ SELECT ROW_NUMBER() OVER () AS ResultID,
             ELSE 'C'
        END AS Grade
 FROM Marks
-GROUP BY StudentID;
-________________________________________
+GROUP BY StudentID;________________________________________
 5. Verify Results
 SELECT * FROM Result;
 ________________________________________
